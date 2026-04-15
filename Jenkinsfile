@@ -2,8 +2,7 @@ pipeline {
     agent any  // Use any available agent
 
     tools {
-        gradle 'gradle'  // Ensure this matches the name configured in Jenkins
-        jdk 'JDK17'
+        maven 'maven'  // Ensure this matches the name configured in Jenkins
     }
     stages {
         stage('Checkout') {
@@ -14,13 +13,13 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'gradle build'  // Run Gradle build
+                sh 'mvn clean package'  // Run Maven build
             }
         }
 
         stage('Test') {
             steps {
-                sh 'gradle test'  // Run unit tests
+                sh 'mvn test'  // Run unit tests
             }
         }
 
@@ -30,7 +29,7 @@ pipeline {
         stage('Run Application') {
             steps {
                 // Start the JAR application
-                sh 'gradle run'
+                sh 'mvn exec:java -Dexec.mainClass="com.example.App"'
             }
         }
 
